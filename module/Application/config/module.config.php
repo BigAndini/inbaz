@@ -8,6 +8,81 @@
  */
 
 return array(
+    'controllers' => array(
+        'invokables' => array(
+            'Application\Controller\Index' => 'Application\Controller\IndexController',
+            'Application\Controller\Event' => 'Application\Controller\EventController',
+            'Application\Controller\Profile' => 'Application\Controller\ProfileController',
+        ),
+    ),
+    'navigation' => array(
+        'main_nav' => array(
+            'home' => array(
+                'label' => 'Kalender',
+                'route' => 'home',
+                'resource'  => 'controller/Application\Controller\Index',
+            ),
+            'convention' => array(
+                'label' => 'Convention',
+                'route' => 'event',
+                'pages' => array(
+                    'add' => array(
+                        'label' => 'Neue Convention',
+                        'route' => 'event',
+                        'action' => 'add',
+                        'resource'  => 'controller/Application\Controller\Event',
+                    ),
+                    'list' => array(
+                        'label' => 'Convention Liste',
+                        'route' => 'event',
+                        'resource'  => 'controller/Application\Controller\Event',
+                    ),
+                ),
+            ),
+        ),
+        'top_nav' => array(
+            'profile' => array(
+                'label' => 'Profil',
+                'route' => 'profile',
+                'pages' => array(
+                'login' => array(
+                    'label' => 'Login',
+                    'route' => 'zfcuser/login',
+                    #'action' => 'login',
+                    'resource'  => 'controller/zfcuser:login',
+                ),
+                'register' => array(
+                    'label' => 'Register',
+                    'route' => 'zfcuser/register',
+                    #'action' => 'register',
+                    'resource'  => 'controller/zfcuser:register',
+                ),
+                'profile' => array(
+                    'label' => 'My Profile',
+                    'route' => 'profile',
+                    'action' => '',
+                    'resource'  => 'controller/Application\Controller\Profile',
+                ),
+                'logout' => array(
+                    'label' => 'Logout',
+                    'route' => 'zfcuser/logout',
+                    #'action' => 'logout',
+                    'resource'  => 'controller/zfcuser:logout',
+                ),
+                ),
+            ),
+            /*'admin' => array(
+                'label' => 'AdminPanel',
+                'route' => 'admin',
+                'resource'  => 'controller/Admin\Controller\Index',
+            ),
+            'onsite' => array(
+                'label' => 'Onsite',
+                'route' => 'onsite',
+                'resource'  => 'controller/OnsiteReg\Controller\Index',
+            ),*/
+        ),
+    ),
     'router' => array(
         'routes' => array(
             'home' => array(
@@ -17,6 +92,34 @@ return array(
                     'defaults' => array(
                         'controller' => 'Application\Controller\Index',
                         'action'     => 'index',
+                    ),
+                ),
+            ),
+            'profile' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route'    => '/profile[/][:action][/:hashkey]',
+                    'constraints' => array(
+                        'action'   => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'hashkey'  => '[A-Z0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Profile',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+            'event' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route'    => '/event[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Event',
+                        'action' => 'index',
                     ),
                 ),
             ),
@@ -53,12 +156,17 @@ return array(
         ),
     ),
     'service_manager' => array(
+        'factories' => array(
+            'main_nav' => 'Application\Service\MainNavigationFactory',
+            'top_nav'  => 'Application\Service\TopNavigationFactory',
+        ),
         'abstract_factories' => array(
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
             'Zend\Log\LoggerAbstractServiceFactory',
         ),
         'aliases' => array(
             'translator' => 'MvcTranslator',
+            'Logger'     => 'EddieJaoude\Zf2Logger',
         ),
     ),
     'translator' => array(
@@ -69,11 +177,6 @@ return array(
                 'base_dir' => __DIR__ . '/../language',
                 'pattern'  => '%s.mo',
             ),
-        ),
-    ),
-    'controllers' => array(
-        'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController'
         ),
     ),
     'view_manager' => array(
@@ -99,4 +202,42 @@ return array(
             ),
         ),
     ),
+    
+    'doctrine' => array(
+        'driver' => array(
+            'inbaz_entities' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(__DIR__ . '/../src/Application/Entity'),
+            ),
+
+            'orm_default' => array(
+                'drivers' => array(
+                    'Application\Entity' => 'inbaz_entities'
+                )
+            )
+        )
+    ),
+    
+    'zfcuser' => array(
+        // telling ZfcUser to use our own class
+        'user_entity_class'       => 'Application\Entity\User',
+        // telling ZfcUserDoctrineORM to skip the entities it defines
+        'enable_default_entities' => false,
+    ),
+ 
+    'bjyauthorize' => array(
+        // Using the authentication identity provider, which basically reads the roles from the auth service's identity
+        'identity_provider' => 'BjyAuthorize\Provider\Identity\AuthenticationIdentityProvider',
+ 
+        'role_providers'        => array(
+            // using an object repository (entity repository) to load all roles into our ACL
+            'BjyAuthorize\Provider\Role\ObjectRepositoryProvider' => array(
+                #'object_manager'    => 'doctrine.entity_manager.orm_default',
+                'object_manager'    => 'doctrine.entitymanager.orm_default',
+                'role_entity_class' => 'Application\Entity\Role',
+            ),
+        ),
+    ),
+    
 );
