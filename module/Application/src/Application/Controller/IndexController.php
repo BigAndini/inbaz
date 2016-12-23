@@ -16,6 +16,7 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
+        #$this->layout()->setVariable('fluid', true);
         return new ViewModel();
     }
 }

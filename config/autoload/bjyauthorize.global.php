@@ -134,8 +134,9 @@ return [
              */
             \BjyAuthorize\Guard\Controller::class => [
                 /* Application */
-                ['controller' => 'Application\Controller\Index', 'roles' => ['guest', 'user']],
-                ['controller' => 'Application\Controller\Event', 'roles' => ['guest', 'user']],
+                ['controller' => 'Application\Controller\Index',    'roles' => ['guest', 'user']],
+                ['controller' => 'Application\Controller\Event',    'roles' => ['guest', 'user']],
+                ['controller' => 'Application\Controller\Calendar', 'roles' => ['guest', 'user']],
                 
                 /* PreReg */
                 /*['controller' => 'PreReg\Controller\Info',                          'roles' => ['guest', 'user']],

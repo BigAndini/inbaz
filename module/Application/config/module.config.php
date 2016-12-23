@@ -12,6 +12,7 @@ return array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Application\Controller\Event' => 'Application\Controller\EventController',
+            'Application\Controller\Calendar' => 'Application\Controller\CalendarController',
             'Application\Controller\Profile' => 'Application\Controller\ProfileController',
         ),
     ),
@@ -109,6 +110,20 @@ return array(
                     ),
                 ),
             ),
+            'calendar' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route'    => '/calendar[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Calendar',
+                        'action' => 'index',
+                    ),
+                ),
+            ),
             'event' => array(
                 'type' => 'segment',
                 'options' => array(
@@ -193,6 +208,9 @@ return array(
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+        'strategies' => array(
+            'ViewJsonStrategy',
         ),
     ),
     // Placeholder for console routes
