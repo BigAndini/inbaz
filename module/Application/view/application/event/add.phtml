@@ -1,19 +1,22 @@
 <?php
 
-$fieldset = $form->get('event');
+#$fieldset = $form->get('event');
 $form->setAttribute('action', $this->url('event', array('action' => 'add')))
       ->prepare();
 
 echo $this->form()->openTag($form);
 
-echo $this->formRow($fieldset->get('heading'));
-echo $this->formRow($fieldset->get('begin'));
-echo $this->formRow($fieldset->get('end'));
-echo $this->formRow($fieldset->get('website'));
+echo $this->formRow($form->get('heading'));
+echo $this->formRow($form->get('begin'));
+echo $this->formRow($form->get('end'));
+echo $this->formRow($form->get('contact'));
+echo $this->formRow($form->get('email'));
+echo $this->formRow($form->get('website'));
+echo $this->formRow($form->get('description'));
 
 echo $this->formHidden($form->get('csrf'));
 echo $this->formElement($form->get('submit')); ?>
 
-<a href="<?php echo $this->url('event'); ?>">Cancel</a>
+<a href="<?php echo $this->url('home'); ?>">Cancel</a>
 
 <?php echo $this->form()->closeTag();

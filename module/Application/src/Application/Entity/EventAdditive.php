@@ -10,15 +10,14 @@
 namespace Application\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Application\Entity\Event
+ * Application\Entity\EventAdditive
  *
  * @ORM\Entity()
- * @ORM\Table(name="event", indexes={@ORM\Index(name="fk_event_role1_idx", columns={"role_id"})})
+ * @ORM\Table(name="eventAdditive", indexes={@ORM\Index(name="fk_eventAdditive_event1_idx", columns={"event_id"})})
  */
-class Event extends Base\Event
+class EventAdditive extends Base\EventAdditive
 {
     public function __construct()
     {

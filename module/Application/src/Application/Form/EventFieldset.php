@@ -72,6 +72,32 @@ class EventFieldset extends Fieldset implements InputFilterProviderInterface
         )); 
         
         $this->add(array( 
+            'name' => 'contact', 
+            'type' => 'Zend\Form\Element\Text', 
+            'attributes' => array( 
+                'placeholder' => 'Kontakt...', 
+                'required' => 'required', 
+                'class' => 'form-control',
+            ), 
+            'options' => array( 
+                'label' => 'Kontakt', 
+            ), 
+        ));
+        
+        $this->add(array( 
+            'name' => 'email', 
+            'type' => 'Zend\Form\Element\Text', 
+            'attributes' => array( 
+                'placeholder' => 'Email...', 
+                'required' => 'required', 
+                'class' => 'form-control',
+            ), 
+            'options' => array( 
+                'label' => 'Email', 
+            ), 
+        ));
+        
+        $this->add(array( 
             'name' => 'website', 
             'type' => 'Zend\Form\Element\Text', 
             'attributes' => array( 
@@ -82,7 +108,20 @@ class EventFieldset extends Fieldset implements InputFilterProviderInterface
             'options' => array( 
                 'label' => 'Webseite', 
             ), 
-        )); 
+        ));
+        
+        $this->add(array( 
+            'name' => 'description', 
+            'type' => 'textarea', 
+            'attributes' => array( 
+                'placeholder' => 'Beschreibung...', 
+                'required' => 'required', 
+                'class' => 'form-control',
+            ), 
+            'options' => array( 
+                'label' => 'Beschreibung', 
+            ), 
+        ));
     }
     
     /**

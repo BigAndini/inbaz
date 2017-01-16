@@ -18,20 +18,14 @@ return array(
     ),
     'navigation' => array(
         'main_nav' => array(
-            'home' => array(
-                'label' => 'Kalender',
-                'route' => 'home',
-                'resource'  => 'controller/Application\Controller\Index',
-            ),
             'convention' => array(
                 'label' => 'Convention',
                 'route' => 'event',
                 'pages' => array(
-                    'add' => array(
-                        'label' => 'Neue Convention',
-                        'route' => 'event',
-                        'action' => 'add',
-                        'resource'  => 'controller/Application\Controller\Event',
+                    'calendar' => array(
+                        'label' => 'Kalender',
+                        'route' => 'home',
+                        'resource'  => 'controller/Application\Controller\Index',
                     ),
                     'list' => array(
                         'label' => 'Convention Liste',

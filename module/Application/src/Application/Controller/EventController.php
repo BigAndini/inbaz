@@ -31,10 +31,25 @@ class EventController extends AbstractActionController
         $em = $this->getServiceLocator()
             ->get('Doctrine\ORM\EntityManager');
         
-        $form = new Form\CreateEventForm($em);
+        #$form = new Form\CreateEventForm($em);
         
         $event = new Entity\Event();
-        $form->bind($event);
+        $form = $event->getForm();
+        #$form->bind($event);
+        
+        $form->add(array(
+            'type' => 'Zend\Form\Element\Csrf',
+            'name' => 'csrf',
+        ));
+
+        $form->add(array(
+            'name' => 'submit',
+            'attributes' => array(
+                'type' => 'submit',
+                'value' => 'Send',
+                'class' => 'btn btn-primary',
+            ),
+        ));
 
         if ($this->request->isPost()) {
             $form->setData($this->request->getPost());
@@ -43,7 +58,9 @@ class EventController extends AbstractActionController
                 $em->persist($event);
                 $em->flush();
                 
-                return $this->redirect()->toRoute('access-level');
+                # TODO: flush message for save success
+                
+                return $this->redirect()->toRoute('home');
             } else {
                 $logger->warn($form->getMessages());
             }
