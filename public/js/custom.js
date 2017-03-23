@@ -11,7 +11,15 @@ $(document).ready(function() {
 
     $('#fullcalendar').fullCalendar({
         // put your options and callbacks here
-        events: '/calendar/events'
+        events: '/calendar/events',
+        locale: 'de',
+        buttonText: {
+            today:    'heute',
+            month:    'Monat',
+            week:     'Woche',
+            day:      'Tag',
+            list:     'Liste'
+        }
     })
 
 });
